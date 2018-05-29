@@ -59,7 +59,7 @@ func (c *Client) call(endpoint, method string, request, response interface{}) er
 
 	req.Header.Add("Accept", `application/json`)
 	req.Header.Add("Content-Type", `application/json`)
-	req.Header.Add("Authorization", "SSWS "+c.ApiToken)
+	req.Header.Add("Authorization", "SSWS "+ c.ApiToken)
 
 	resp, err := c.client.Do(req)
 	if err != nil {

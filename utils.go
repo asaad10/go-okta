@@ -1,8 +1,8 @@
 package okta
 
 import (
-	"os"
 	"log"
+	"os"
 )
 
 var orgName = os.Getenv("OKTA_API_TEST_ORG")
@@ -22,14 +22,18 @@ func GetUserIdOfUser(email string) string {
 
 }
 
+
+//TEMPORARY, should hopefully be able to use userID directly.
 func GetAppMetaDataForUser(email string) []AppMetaData {
 
 	uID := GetUserIdOfUser(email)
 	resp, _ := client.GetAppsForUser(uID)
 	app_list := []AppMetaData{}
 	for _,app := range *resp{
-		app_list = append(app_list, AppMetaData{app.Label, app.Settings.OauthClient.InitiateLoginURI,
-		app.ID, app.Settings.OauthClient.RedirectURIs, app.Links.Logo[0].Href})
+		if app.Status == "ACTIVE" {
+			app_list = append(app_list, AppMetaData{app.Label, app.Settings.OauthClient.InitiateLoginURI,
+				app.ID, app.Settings.OauthClient.ApplicationType, app.Links.Logo[0].Href})
+		}
 	}
 	return app_list
 }

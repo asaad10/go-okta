@@ -170,7 +170,7 @@ type AppMetaData struct{
 	Name string
 	Url string
 	Id string
-	RedirectUris []string
+	ApplicationType string
 	LogoUrl string
 
 }
