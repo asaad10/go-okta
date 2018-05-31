@@ -168,6 +168,7 @@ type App struct {
 
 type AppMetaData struct{
 	Name string
+	Label string
 	Url string
 	Id string
 	ApplicationType string

@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"sync"
+	"fmt"
 )
 
 type Client struct {
@@ -14,17 +16,23 @@ type Client struct {
 	ApiToken      string
 }
 
+var client *Client
+var once sync.Once
 
-func NewClient(org string, apitoken string) *Client {
-	client := Client{
-		client: &http.Client{},
-		org:    org,
-		Url:    "okta.com",
-		ApiToken: apitoken,
-	}
 
-	return &client
+func GetOktaClient(org string, apitoken string) *Client {
+	once.Do(func() {
+		fmt.Println("IM INITIALIZING")
+		client = &Client{
+			client: &http.Client{},
+			org:    org,
+			Url:    "okta.com",
+			ApiToken: apitoken,
+		}
+	})
+	return client
 }
+
 
 func (c *Client) UserByUsername(username string) (*UserByUsername, error) {
 
