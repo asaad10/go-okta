@@ -6,8 +6,13 @@ import (
 	"io/ioutil"
 	"net/http"
 	"sync"
-	"fmt"
+	"os"
 )
+
+var client *Client
+var once sync.Once
+var orgName = os.Getenv("OKTA_API_TEST_ORG")
+var apiToken = os.Getenv("OKTA_API_TEST_TOKEN")
 
 type Client struct {
 	client        *http.Client
@@ -16,13 +21,8 @@ type Client struct {
 	ApiToken      string
 }
 
-var client *Client
-var once sync.Once
-
-
 func GetOktaClient(org string, apitoken string) *Client {
 	once.Do(func() {
-		fmt.Println("IM INITIALIZING")
 		client = &Client{
 			client: &http.Client{},
 			org:    org,
