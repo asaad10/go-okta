@@ -21,8 +21,9 @@ func GetAppMetaDataForUser(email string) []AppMetaData {
 	app_list := []AppMetaData{}
 	for _,app := range *resp{
 		if app.Status == "ACTIVE" {
-			app_list = append(app_list, AppMetaData{app.Name,app.Label, app.Settings.OauthClient.InitiateLoginURI,
-				app.ID, app.Settings.OauthClient.ApplicationType, app.Links.Logo[0].Href})
+			app_list = append(app_list, AppMetaData{app.Name,app.Label, tempDB[app.ID],
+			 app.Settings.OauthClient.InitiateLoginURI, app.ID,
+			 app.Settings.OauthClient.ApplicationType, app.Links.Logo[0].Href})
 		}
 	}
 	return app_list
